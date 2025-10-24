@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Event Registration</title>
+    <style>
+        /* === General Styles === */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f7f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+        }
+
+        h1, h2 {
+            color: #1a253c;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: #e0e0e0;
+            margin: 50px 0;
+        }
+
+        /* === Event List Styles === */
+        #event-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .event-card {
+            background-color: #ffffff;
+            border: 1px solid #e0e6ed;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .event-card h3 {
+            margin-top: 0;
+            color: #0056b3;
+            font-size: 1.25em;
+        }
+
+        .event-card p {
+            margin: 10px 0;
+            color: #555;
+            font-size: 0.95em;
+            display: flex;
+            align-items: center;
+        }
+
+        .event-card p strong {
+            margin-right: 8px;
+            color: #333;
+            min-width: 70px; /* Aligns the text */
+        }
+
+        /* === Form Styles === */
+        form {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid #e0e6ed;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box; /* Ensures padding doesn't affect width */
+            font-size: 1em;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* === Message Styles (Untuk Notifikasi) === */
+        #message {
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+            padding: 15px;
+            border-radius: 8px;
+            display: none; /* Disembunyikan secara default */
+        }
+
+        #message.success {
+            color: #155724;
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            display: block; /* Ditampilkan saat pendaftaran berhasil */
+        }
+
+        #message.error {
+            color: #721c24;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            display: block; /* Ditampilkan saat pendaftaran gagal */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Daftar Event Kampus</h1>
+        <div id="event-list">
+            <!-- Daftar event akan dimuat di sini oleh JavaScript -->
+        </div>
+
+        <hr>
+
+        <h2>Form Pendaftaran</h2>
+        <form id="registration-form">
+            <label for="name">Nama Lengkap:</label>
+            <input type="text" id="name" name="name" required placeholder="Contoh: Budi Sentana">
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required placeholder="Contoh: budi.sentana@email.com">
+
+            <label for="event-select">Pilih Event:</label>
+            <select id="event-select" name="event_id" required>
+                <!-- Opsi event akan dimuat di sini -->
+            </select>
+            <br><br>
+            <button type="submit">Daftar Sekarang</button>
+        </form>
+        
+        <!-- Elemen HTML untuk menampilkan notifikasi -->
+        <div id="message"></div>
+    </div>
+
+    <script>
+        const API_URL = 'http://127.0.0.1:8000';
+        const eventListDiv = document.getElementById('event-list');
+        const eventSelect = document.getElementById('event-select');
+        const registrationForm = document.getElementById('registration-form');
+        const messageDiv = document.getElementById('message');
+
+        // Fungsi untuk mengambil dan menampilkan daftar event dari backend
+        async function fetchAndDisplayEvents() {
+            try {
+                const response = await fetch(`${API_URL}/events`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const events = await response.json();
+
+                eventListDiv.innerHTML = ''; // Kosongkan daftar
+                eventSelect.innerHTML = '<option value="" disabled selected>-- Pilih salah satu event --</option>'; // Atur pilihan default
+
+                if (events.length === 0) {
+                    eventListDiv.innerHTML = '<p>Saat ini belum ada event yang tersedia.</p>';
+                } else {
+                    events.forEach(event => {
+                        // Tampilkan event sebagai kartu
+                        const eventCard = document.createElement('div');
+                        eventCard.className = 'event-card';
+                        eventCard.innerHTML = `
+                            <h3>${event.title}</h3>
+                            <p><strong>Tanggal:</strong> ${event.date}</p>
+                            <p><strong>Lokasi:</strong> ${event.location}</p>
+                            <p><strong>Kuota:</strong> ${event.quota}</p>
+                        `;
+                        eventListDiv.appendChild(eventCard);
+
+                        // Tambahkan event ke dropdown form
+                        const option = document.createElement('option');
+                        option.value = event.id;
+                        option.textContent = event.title;
+                        eventSelect.appendChild(option);
+                    });
+                }
+            } catch (error) {
+                eventListDiv.innerHTML = '<p>Gagal memuat event. Pastikan server backend berjalan.</p>';
+                console.error('Error fetching events:', error);
+            }
+        }
+
+        // Fungsi yang berjalan ketika tombol "Daftar Sekarang" ditekan
+        registrationForm.addEventListener('submit', async function(e) {
+            e.preventDefault(); // Mencegah halaman refresh
+
+            const formData = new FormData(registrationForm);
+            const eventId = formData.get('event_id');
+
+            if (!eventId) {
+                messageDiv.textContent = 'Harap pilih salah satu event terlebih dahulu.';
+                messageDiv.className = 'error';
+                return;
+            }
+
+            const participantData = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                event_id: parseInt(eventId)
+            };
+
+            // Sembunyikan notifikasi lama sebelum mengirim request baru
+            messageDiv.className = '';
+            messageDiv.style.display = 'none';
+
+            try {
+                const response = await fetch(`${API_URL}/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(participantData)
+                });
+                
+                const result = await response.json();
+
+                // Cek apakah response dari backend sukses (status 200-299)
+                if (response.ok) {
+                    // Jika sukses, tampilkan notifikasi hijau
+                    messageDiv.textContent = `Pendaftaran berhasil untuk ${result.name}!`;
+                    messageDiv.className = 'success';
+                    registrationForm.reset(); // Kosongkan input form
+                    eventSelect.selectedIndex = 0; // Kembalikan dropdown ke pilihan awal
+                } else {
+                    // Jika gagal, tampilkan notifikasi merah dengan pesan error dari backend
+                    messageDiv.textContent = `Gagal mendaftar: ${result.detail || 'Terjadi kesalahan.'}`;
+                    messageDiv.className = 'error';
+                }
+            } catch (error) {
+                // Jika terjadi error jaringan (misal server mati)
+                messageDiv.textContent = 'Terjadi kesalahan jaringan. Pastikan server backend berjalan.';
+                messageDiv.className = 'error';
+                console.error('Error registering:', error);
+            }
+        });
+
+        // Panggil fungsi untuk memuat data event saat halaman pertama kali dibuka
+        fetchAndDisplayEvents();
+    </script>
+</body>
+</html>
