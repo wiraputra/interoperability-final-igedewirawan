@@ -122,10 +122,11 @@ Berikut adalah beberapa screenshot yang menunjukkan fungsionalitas aplikasi.
 **2. Verifikasi Pendaftaran Berhasil via Swagger UI**
 *(Hasil dari endpoint GET /participants menunjukkan data yang baru saja didaftarkan dari frontend)*
 
-*Mengisi Data yang akan didaftarkan (email yang benar adalah bud@gmail.com)*
+*Mengisi Data yang akan didaftarkan (email yang benar adalah bui@gmail.com)*
 ![Mengisi Form Pendaftaran](screenshots/verifikasi-pendaftaran1.png)
 
-*Hasil Pendaftaran masuk ke Swagger UI*
+*Hasil Pendaftaran masuk ke Swagger UI* </br>
+Muncul paling bawah
 ![Hasil Pendaftaran di Swagger](screenshots/verifikasi-pendaftaran2.png)
 
 **3. Dokumentasi API Interaktif (Swagger UI)**
@@ -136,13 +137,13 @@ Berikut adalah beberapa screenshot yang menunjukkan fungsionalitas aplikasi.
 *(Contoh pengujian membuat event baru setelah melakukan otorisasi dengan API Key yang valid)*
 
 *Otorisasi API Key*
-![Otorisasi Key](screenshots/post-event1.png)
+![Otorisasi Key](screenshots/event1.png)
 
 *Pembuatan Event Baru via POST*
-![Pembuatan POST Event](screenshots/post-event2.png)
+![Pembuatan POST Event](screenshots/event2.png)
 
 *Event Baru Tampil di Frontend*
-![Tampilan POST Event Baru di Frontend](screenshots/post-event3.png)
+![Tampilan POST Event Baru di Frontend](screenshots/event3.png)
 
 ---
 ---
