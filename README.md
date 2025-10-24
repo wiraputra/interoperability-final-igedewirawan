@@ -37,8 +37,8 @@ Berikut adalah langkah-langkah untuk menyiapkan dan menjalankan proyek ini di li
 
 1.  **Clone Repository**
     ```bash
-    git clone [URL REPOSITORY GITHUB ANDA]
-    cd interoperability-final-[namamahasiswa]
+    git clone https://github.com/wiraputra/interoperability-final-igedewirawan.git
+    cd interoperability-final-igedewirawan
     ```
 
 2.  **Buat dan Aktifkan Virtual Environment**
@@ -133,9 +133,9 @@ Hasil Penaftaran masuk ke Swagger
 **4. Pengujian Endpoint yang Dilindungi (POST /events)**
 *(Contoh pengujian membuat event baru setelah melakukan otorisasi dengan API Key yang valid)*
 Otorisasi Key 
-![Otorisasi Key](screenshots/post-event1.png)
+![Otorisasi Key] (screenshots/post-event1.png)
 Pembuatan Event Baru
-![Pembuatan POST Event](screenshots/post-event2.png)
+![Pembuatan POST Event] (screenshots/post-event2.png)
 Post Event PNB IT Tampil di Frontend 
-![Tampilan POST Event](screenshots/post-event3.png)
+![Tampilan POST Event] (screenshots/post-event3.png)
 ---
