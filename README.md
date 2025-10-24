@@ -1,8 +1,8 @@
 # Proyek UTS Interoperability: Campus Event Registration Platform
 
-**Nama:** I Gede Wirawan
-**NIM:** 2315354030
-**Kelas:** 5B TRPL
+**Nama:** I Gede Wirawan </br>
+**NIM:** 2315354030 </br>
+**Kelas:** 5B TRPL </br>
 
 ---
 
@@ -121,10 +121,12 @@ Berikut adalah beberapa screenshot yang menunjukkan fungsionalitas aplikasi.
 
 **2. Verifikasi Pendaftaran Berhasil via Swagger UI**
 *(Hasil dari endpoint GET /participants menunjukkan data yang baru saja didaftarkan dari frontend)*
-Mengisi Data yang akan didaftarkan (email yang benar adalah bui@gmail.com)
-![Verifikasi Pendaftaran](screenshots/verifikasi-pendaftaran1.png)
-Hasil Penaftaran masuk ke Swagger
-![Verifikasi Pendaftaran](screenshots/verifikasi-pendaftaran2.png)
+
+*Mengisi Data yang akan didaftarkan (email yang benar adalah bud@gmail.com)*
+![Mengisi Form Pendaftaran](screenshots/verifikasi-pendaftaran1.png)
+
+*Hasil Pendaftaran masuk ke Swagger UI*
+![Hasil Pendaftaran di Swagger](screenshots/verifikasi-pendaftaran2.png)
 
 **3. Dokumentasi API Interaktif (Swagger UI)**
 *(Menampilkan semua endpoint yang tersedia, termasuk endpoint yang dilindungi gembok)*
@@ -132,10 +134,15 @@ Hasil Penaftaran masuk ke Swagger
 
 **4. Pengujian Endpoint yang Dilindungi (POST /events)**
 *(Contoh pengujian membuat event baru setelah melakukan otorisasi dengan API Key yang valid)*
-Otorisasi Key 
-![Otorisasi Key] (screenshots/post-event1.png)
-Pembuatan Event Baru
-![Pembuatan POST Event] (screenshots/post-event2.png)
-Post Event PNB IT Tampil di Frontend 
-![Tampilan POST Event] (screenshots/post-event3.png)
+
+*Otorisasi API Key*
+![Otorisasi Key](screenshots/post-event1.png)
+
+*Pembuatan Event Baru via POST*
+![Pembuatan POST Event](screenshots/post-event2.png)
+
+*Event Baru Tampil di Frontend*
+![Tampilan POST Event Baru di Frontend](screenshots/post-event3.png)
+
+---
 ---
